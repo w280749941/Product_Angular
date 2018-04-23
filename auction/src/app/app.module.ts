@@ -15,6 +15,9 @@ import {RouterModule, Routes} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ProductService} from './shared/product.service';
 import { FilterPipe } from './pipe/filter.pipe';
+import { HttpModule } from '@angular/http';
+import { WebSocketService } from './shared/web-socket.service';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 const routeConfig: Routes = [
   {path: '', component: HomeComponent},
@@ -38,9 +41,14 @@ const routeConfig: Routes = [
     BrowserModule,
     FormsModule,
     RouterModule.forRoot(routeConfig),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpModule
   ],
-  providers: [ProductService],
+  providers: [ProductService, WebSocketService],
+  // This is for deployment mode prevent browser not recognizing Angular router in action.
+  // This basically added "#" sign to url, so that it reference a specific part of page in HTML. (Differnt in Angular)
+  // providers: [ProductService, WebSocketService,
+  //   {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
